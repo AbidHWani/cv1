@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Abid Hussain Wani - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Visualization & Content Choices: 
+        - Objective/Summary -> Goal: Inform -> Presentation: Prominent text block in the hero section to immediately state the candidate's career goals.
+        - Publications List -> Goal: Organize & Analyze -> Presentation: An interactive, filterable list. Interaction: Users can filter by year or type (Journal/Book Chapter) to easily navigate the extensive list. Justification: This allows reviewers to quickly assess the relevance and recency of the candidate's work.
+        - Publication Trend -> Goal: Show Change/Growth -> Presentation: A Bar Chart (Chart.js/Canvas). Interaction: The chart is dynamic and provides a quick visual summary of research productivity, a critical factor for academic positions. Justification: A chart is more impactful for showing trends than a simple list.
+        - Education -> Goal: Inform -> Presentation: A clean, vertical timeline layout using HTML/CSS for easy chronological understanding.
+        - Skills -> Goal: Organize & Inform -> Presentation: Grouped lists with styled tags/badges. Justification: This is more visually appealing and scannable than a standard bulleted list.
+        - Library/Method: Chart.js for the publication chart. All other visuals are achieved with structured HTML and Tailwind CSS. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #4a4a4a;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .nav-link.active {
+            color: #0d9488;
+            border-bottom-color: #0d9488;
+        }
+        .publication-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .publication-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <a href="#home" class="text-xl font-bold text-teal-700">Dr. Abid Hussain Wani</a>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#profile" class="nav-link text-gray-600 hover:text-teal-600 border-b-2 border-transparent pb-1">Profile</a>
+                    <a href="#research" class="nav-link text-gray-600 hover:text-teal-600 border-b-2 border-transparent pb-1">Research</a>
+                    <a href="#publications" class="nav-link text-gray-600 hover:text-teal-600 border-b-2 border-transparent pb-1">Publications</a>
+                    <a href="#teaching" class="nav-link text-gray-600 hover:text-teal-600 border-b-2 border-transparent pb-1">Teaching</a>
+                    <a href="#skills" class="nav-link text-gray-600 hover:text-teal-600 border-b-2 border-transparent pb-1">Skills</a>
+                </div>
+                <div class="md:hidden">
+                    <select onchange="window.location.href = this.value;" class="bg-gray-100 border border-gray-300 rounded-md p-1 text-sm">
+                        <option value="#home">Home</option>
+                        <option value="#profile">Profile</option>
+                        <option value="#research">Research</option>
+                        <option value="#publications">Publications</option>
+                        <option value="#teaching">Teaching</option>
+                        <option value="#skills">Skills</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="home" class="text-center min-h-[60vh] flex flex-col justify-center items-center">
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-gray-800">Abid Hussain Wani, PhD</h1>
+            <p class="mt-4 text-lg md:text-xl text-teal-700 font-medium">Plant Scientist | Educator | Data Analyst</p>
+            <div class="mt-8 max-w-3xl mx-auto text-gray-600 text-lg leading-relaxed">
+                <p>
+                    A highly accomplished and recently graduated Doctor of Philosophy in Botany, demonstrating significant research productivity with 8 peer-reviewed journal publications and 2 book chapters. Expertise in plant stress physiology, biostatistics, and advanced analytical techniques, with a primary research focus on silicon-mediated biotic and abiotic stress amelioration in economically important crops. Aspiring to secure an Assistant Professor position at RSAM University, Andhra Pradesh, to contribute to its research eminence by investigating locally relevant agricultural challenges, developing a robust, externally-funded research program, and delivering high-impact teaching and mentorship to cultivate future botanists and agricultural scientists in the region.
+                </p>
+            </div>
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
+                <a href="mailto:aabidhussain0786@gmail.com" class="bg-teal-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-teal-700 transition-colors">Email</a>
+                <a href="tel:+917006735088" class="bg-gray-200 text-gray-800 font-semibold py-2 px-5 rounded-lg hover:bg-gray-300 transition-colors">Phone</a>
+            </div>
+        </section>
+
+        <section id="profile" class="py-20">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Academic Profile</h2>
+            <div class="grid md:grid-cols-2 gap-16">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-teal-700">Education</h3>
+                    <div class="relative border-l-2 border-teal-200 pl-8 space-y-12">
+                        <div class="absolute w-4 h-4 bg-teal-600 rounded-full -left-2 top-1"></div>
+                        <div>
+                            <p class="font-semibold text-lg text-gray-800">PhD in Botany <span class="text-sm font-normal text-gray-500">(Expected Jan 2025)</span></p>
+                            <p class="text-gray-600">University of Kashmir, Srinagar</p>
+                            <p class="mt-2 text-sm text-gray-500 italic">Dissertation: "Investigating the Role of Silicon in Enhancing Biotic and Abiotic Stress Tolerance in Wheat and Maize: Physiological, Biochemical, and Molecular Approaches."</p>
+                        </div>
+                        <div class="absolute w-4 h-4 bg-teal-600 rounded-full -left-2"></div>
+                        <div>
+                            <p class="font-semibold text-lg text-gray-800">MSc in Botany <span class="text-sm font-normal text-gray-500">(2018)</span></p>
+                            <p class="text-gray-600">University of Kashmir, Srinagar</p>
+                        </div>
+                        <div class="absolute w-4 h-4 bg-teal-600 rounded-full -left-2"></div>
+                        <div>
+                            <p class="font-semibold text-lg text-gray-800">BSc <span class="text-sm font-normal text-gray-500">(2016)</span></p>
+                            <p class="text-gray-600">University of Kashmir, Srinagar</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-teal-700">Achievements & Awards</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-teal-500 mr-3 mt-1">&#10004;</span>
+                            <span><strong class="text-gray-700">CSIR Junior Research Fellowship (JRF)/NET</strong> (Life Science, All India Rank 42) – April 2019</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-teal-500 mr-3 mt-1">&#10004;</span>
+                            <span><strong class="text-gray-700">CSIR Junior Research Fellowship (JRF)/NET</strong> (Life Science, All India Rank 56) – June 2018</span>
+                        </li>
+                        <li class="flex items-start">
+                             <span class="text-teal-500 mr-3 mt-1">&#10004;</span>
+                            <span><strong class="text-gray-700">State-Level Entrance Test (SLET) for Lectureship</strong> – July 2018</span>
+                        </li>
+                        <li class="flex items-start">
+                             <span class="text-teal-500 mr-3 mt-1">&#10004;</span>
+                            <span><strong class="text-gray-700">Google Data Analytics Professional Certificate</strong> (6-month intensive program) – Feb 2022</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="py-20 bg-white rounded-2xl">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Research Focus</h2>
+            <p class="text-center max-w-3xl mx-auto mb-12 text-gray-600">My doctoral research investigated the multifaceted role of silicon in enhancing plant resilience. I spearheaded comprehensive studies on how silicon supplementation helps critical crops like wheat and maize defend against a range of biotic and abiotic stressors.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="font-bold text-lg text-teal-800">Biotic Stress Tolerance</h3>
+                    <p class="mt-2 text-gray-600">Investigated silicon-mediated defense against fungal pathogens like stripe rust, and insect pests including the corn leaf aphid and oriental armyworm.</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="font-bold text-lg text-teal-800">Abiotic Stress Resilience</h3>
+                    <p class="mt-2 text-gray-600">Analyzed the role of silicon in alleviating drought stress by enhancing physiological and biochemical stability in plants.</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="font-bold text-lg text-teal-800">Advanced Biostatistics</h3>
+                    <p class="mt-2 text-gray-600">Applied robust statistical models (ANOVA, MANOVA, PCA) using R to interpret complex biological data and identify novel stress tolerance markers.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="publications" class="py-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Publications</h2>
+            <p class="text-center max-w-3xl mx-auto mb-12 text-gray-600">My research has resulted in 8 peer-reviewed journal articles and 2 book chapters, contributing to the understanding of plant science and sustainable agriculture. This chart highlights my publication output during my doctoral studies.</p>
+            
+            <div class="chart-container mb-12">
+                <canvas id="publicationsChart"></canvas>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-10">
+                <button onclick="filterPublications('all')" class="filter-btn bg-teal-600 text-white font-semibold py-2 px-5 rounded-lg">All</button>
+                <button onclick="filterPublications('journal')" class="filter-btn bg-gray-200 text-gray-800 font-semibold py-2 px-5 rounded-lg">Journal Articles</button>
+                <button onclick="filterPublications('book')" class="filter-btn bg-gray-200 text-gray-800 font-semibold py-2 px-5 rounded-lg">Book Chapters</button>
+                <select id="yearFilter" onchange="filterPublications(this.value)" class="bg-gray-200 border-0 text-gray-800 font-semibold py-2 px-5 rounded-lg focus:ring-2 focus:ring-teal-500">
+                    <option value="all">All Years</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                </select>
+            </div>
+
+            <div id="publications-list" class="space-y-6">
+            </div>
+        </section>
+        
+        <section id="teaching" class="py-20 bg-white rounded-2xl">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Teaching & Mentorship</h2>
+            <p class="text-center max-w-3xl mx-auto mb-12 text-gray-600">I am passionate about education and have experience in both classroom instruction and one-on-one mentorship, aiming to inspire and cultivate the next generation of scientists.</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="font-bold text-lg text-teal-800">Lecturer in Botany</h3>
+                    <p class="text-sm text-gray-500">Government Degree College, Ramban – J&K</p>
+                    <p class="mt-3 text-gray-600">Delivered engaging lectures and conducted hands-on laboratory sessions for undergraduate students in core Botany courses. Developed comprehensive course materials, including syllabi, lecture presentations, and assessments to enhance student comprehension and practical skills.</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="font-bold text-lg text-teal-800">Academic Mentor & Instructor</h3>
+                    <p class="text-sm text-gray-500">University of Kashmir</p>
+                    <p class="mt-3 text-gray-600">Successfully mentored postgraduate students in designing experimental research, performing advanced statistical data analyses, and scientific writing for their dissertations. Designed and taught a postgraduate elective course on "Weed Management".</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-20">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Technical Skills</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-teal-700">Biostatistics & Data Analytics</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">R (R Studio)</span>
+                        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">ANOVA/MANOVA</span>
+                        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">PCA</span>
+                        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">SQL</span>
+                        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">Tableau</span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-teal-700">Plant Physiology & Biochemistry</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm">Photosynthesis Analysis</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm">Oxidative Stress Markers</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm">Osmolyte Accumulation</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm">Nutrient Analysis</span>
+                    </div>
+                </div>
+                 <div>
+                    <h3 class="text-xl font-semibold mb-4 text-teal-700">Molecular & Entomological Skills</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">Rt-PCR</span>
+                        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">DNA/RNA Extraction</span>
+                        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">Insect Bioassays</span>
+                        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">Pest Damage Assessment</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-xl font-bold">Dr. Abid Hussain Wani</p>
+            <p class="mt-2">Srinagar - 190006, India</p>
+            <div class="mt-4 flex justify-center gap-4">
+                 <a href="mailto:aabidhussain0786@gmail.com" class="text-gray-300 hover:text-white">aabidhussain0786@gmail.com</a>
+                 <span>&middot;</span>
+                 <a href="tel:+917006735088" class="text-gray-300 hover:text-white">+91-7006735088</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const publicationsData = [
+            { year: 2025, type: 'journal', title: 'Apportioning and modeling the anthropogenic fingerprints in a Himalayan freshwater lake over the last ∼ 3.7 ka: Insights into pollution chronology and future policy implications', authors: 'Hassan, S., Bali, B. S., Arora, P., Ali, S. N., Morthekai, P., Muneer, W., Wani, A. H., Sabreena, Yaseen, A., Zaman, M., & Ganai, B. A.', journal: 'Environmental Chemistry and Ecotoxicology, 7, 547-564.', url: 'https://doi.org/10.1016/j.enceco.2025.02.015' },
+            { year: 2025, type: 'journal', title: 'Silicon Supplementation Reinforces Maize Defence to Defeat the Oriental Armyworm', authors: 'Shameen, F., Wani, A. H., Gulzar, I., Ahmad, T., & Rashid, I.', journal: 'Journal of Applied Entomology, e13434.', url: 'https://doi.org/10.1111/jen.13434' },
+            { year: 2025, type: 'journal', title: 'Silicon supplementation mitigates the effects of infestation of corn leaf aphid, Rhopalosiphum maidis Fitch (Hemiptera: Aphididae)', authors: 'Shameen, F., Gulzar, I., Wani, A. H., Malik, M. A., Rashid, I., & Ahmad, T.', journal: 'Phytoparasitica, 53, 53.', url: 'https://doi.org/10.1007/s12600-025-01276-5' },
+            { year: 2024, type: 'journal', title: 'Transporters regulate silicon uptake to make stripe rust resistant wheat genotypes more effective', authors: 'Wani, A. H., Rashid, I., Rather, R. A., & John, R.', journal: 'Plant Physiology and Biochemistry, 217, 109217.', url: 'https://doi.org/10.1016/j.plaphy.2024.109217' },
+            { year: 2024, type: 'journal', title: 'Deciphering source, degradation status and temporal trends of organic matter in a Himalayan freshwater lake using multiproxy indicators, optically stimulated luminescence dating and time series forecasting', authors: 'Hassan, S., Bali, B. S., Muneer, W., Ali, S. N., Morthekai, P., Wani, A. H., & Ganai, B. A.', journal: 'Science of the Total Environment, 957, 177618.', url: 'https://doi.org/10.1016/j.scitotenv.2024.177618' },
+            { year: 2023, type: 'journal', title: 'Do genotypes ameliorate herbivory stress through silicon amendments differently? A case study of wheat', authors: 'Malik, M. A., Wani, A. H., Rashid, I., Tahir, I., Gulzar, I., Shameen, F., & Ahmad, T.', journal: 'Plant Physiology and Biochemistry, 196, 339-349.', url: 'https://doi.org/10.1016/j.plaphy.2023.02.022' },
+            { year: 2023, type: 'journal', title: 'Silicon en route from loam to leaf', authors: 'Wani, A.H., Mir S.H., Mir, Kumar S, Malik MA, Tyub S, & Rashid I.', journal: 'Plant Growth Regulation, 99(3), 465–476.', url: 'https://doi.org/10.1007/s10725-022-00931-9' },
+            { year: 2022, type: 'book', title: 'Biofertilizers: the role in sustainable agriculture', authors: 'Rehman, I. U., Islam, T., Wani, A. H., Rashid, I., Sheergojri, I. A., & Bandh, M. M.', journal: 'In Sustainable agriculture: technical progressions and transitions (pp. 25-38).', url: '#' },
+            { year: 2022, type: 'book', title: 'Nitrogen biofertilizers: role in sustainable agriculture', authors: 'Rehmaan, I. U., Jan, B., Khan, N. F., Islam, T., Rehman, S., Sheergojri, I. A., Rashid, I., & Wani, A. H.', journal: 'In Advances in plant nitrogen metabolism (pp. 170-184).', url: '#' },
+            { year: 2021, type: 'journal', title: 'Elucidating the role of silicon in drought stress tolerance in plants', authors: 'Malik, M. A., Wani, A. H., Mir, S. H., Rehman, I. U., Tahir, I., Ahmad, P., & Rashid, I.', journal: 'Plant Physiology and Biochemistry, 165, 187-195.', url: 'https://doi.org/10.1016/j.plaphy.2021.04.021' },
+        ];
+
+        function renderPublications(filter = 'all') {
+            const list = document.getElementById('publications-list');
+            list.innerHTML = '';
+            
+            const yearFilterValue = document.getElementById('yearFilter').value;
+
+            const filteredData = publicationsData.filter(p => {
+                const typeMatch = filter === 'all' || p.type === filter;
+                const yearMatch = yearFilterValue === 'all' || p.year == yearFilterValue;
+                return typeMatch && yearMatch;
+            });
+
+            if (filteredData.length === 0) {
+                list.innerHTML = '<p class="text-center text-gray-500">No publications match the selected criteria.</p>';
+                return;
+            }
+
+            filteredData.forEach(p => {
+                const card = `
+                <div class="publication-card bg-white rounded-lg p-6 shadow-md border border-gray-100">
+                    <p class="text-sm font-semibold ${p.type === 'journal' ? 'text-teal-600' : 'text-indigo-600'}">${p.type === 'journal' ? 'Journal Article' : 'Book Chapter'} &middot; ${p.year}</p>
+                    <h3 class="mt-2 text-lg font-bold text-gray-800">${p.title}</h3>
+                    <p class="mt-2 text-sm text-gray-600">${p.authors.replace('Wani, A. H.', '<strong class="text-gray-800">Wani, A. H.</strong>')}</p>
+                    <p class="mt-2 text-sm italic text-gray-500">${p.journal}</p>
+                    ${p.url !== '#' ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 text-sm font-semibold text-teal-600 hover:text-teal-800">View Publication &rarr;</a>` : ''}
+                </div>
+                `;
+                list.innerHTML += card;
+            });
+        }
+        
+        function filterPublications(typeOrYear) {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const yearFilter = document.getElementById('yearFilter');
+            
+            if(['all', 'journal', 'book'].includes(typeOrYear)){
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('bg-teal-600', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-800');
+                });
+                document.querySelector(`.filter-btn[onclick="filterPublications('${typeOrYear}')"]`).classList.add('bg-teal-600', 'text-white');
+                document.querySelector(`.filter-btn[onclick="filterPublications('${typeOrYear}')"]`).classList.remove('bg-gray-200', 'text-gray-800');
+                renderPublications(typeOrYear);
+            } else {
+                const currentFilter = document.querySelector('.filter-btn.bg-teal-600').getAttribute('onclick').replace("filterPublications('", "").replace("')", "");
+                renderPublications(currentFilter);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPublications('all');
+            
+            const publicationCounts = publicationsData.reduce((acc, p) => {
+                acc[p.year] = (acc[p.year] || 0) + 1;
+                return acc;
+            }, {});
+
+            const years = Object.keys(publicationCounts).sort();
+            const counts = years.map(year => publicationCounts[year]);
+
+            const ctx = document.getElementById('publicationsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Publications per Year',
+                        data: counts,
+                        backgroundColor: 'rgba(13, 148, 136, 0.6)',
+                        borderColor: 'rgba(13, 148, 136, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px' });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
